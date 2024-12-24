@@ -111,3 +111,31 @@
     </script>
 </body>
 </html>
+const express = require('express');
+const bodyParser = require('body-parser');
+
+const app = express();
+const PORT = process.env.PORT || 5000;
+
+app.use(bodyParser.json());
+app.use(express.static('public'));  // Menyajikan file HTML, CSS, JS
+
+// Endpoint untuk memproses top-up
+app.post('/process-top-up', (req, res) => {
+    const { amount, method } = req.body;
+
+    // Validasi data (misalnya, memastikan jumlah dan metode pembayaran valid)
+    if (!amount || !method) {
+        return res.status(400).json({ success: false, message: 'Data tidak lengkap' });
+    }
+
+    // Simulasi proses pembayaran (di sini bisa ditambah logika untuk memproses pembayaran)
+    setTimeout(() => {
+        res.json({ success: true, amount, method });
+    }, 2000);  // Simulasi delay 2 detik untuk proses pembayaran
+});
+
+// Menjalankan server
+app.listen(PORT, () => {
+    console.log(`Server berjalan di http://localhost:${PORT}`);
+});
